@@ -7,6 +7,8 @@ const tripsApi = require('./routes/trips');
 const notFoundHandler = require('./utils/middleware/notFoundHandler');
 const { logErrors, wrapErrors, errorHandler } = require('./utils/middleware/errorHandlers');
 
+app.use(express.json());
+
 // Routes
 tripsApi(app);
 

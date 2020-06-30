@@ -30,6 +30,26 @@ class TripsService {
 		const trip = await this.mongoDB.get(this.collection, tripId);
 		return trip || {};
   }
+
+  async createTrip(trip) {
+		// const createdTripId = await Promise.resolve(TripsServiceMock.createTrip);
+		const createdTripId = await this.mongoDB.create(this.collection, trip);
+		return createdTripId;
+	}
+
+	async updateTrip({ tripId, trip } = {}) {
+    const updatedTripId = await this.mongoDB.update(
+      this.collection,
+      tripId,
+      trip
+    );
+    return updatedTripId;
+	}
+
+	async deleteTrip(tripId) {
+    const deletedTripId = await this.mongoDB.delete(this.collection, tripId);
+    return deletedTripId;
+	}
 }
 
 module.exports = TripsService;

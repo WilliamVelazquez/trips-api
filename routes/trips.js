@@ -69,6 +69,108 @@ function tripsApi(app) {
       }
     }
   );
+
+  router.post(
+    '/',
+    validationHandler(createTripSchema),
+    async function(req, res, next) {
+      const { body } = req;
+      
+      const creationDate = new Date();
+      // Converting the Date for requesting with a String from Postman
+      const trip = {
+        ...body,
+        start: {
+          ...body.start,
+          date: body.start.date ? new Date(body.start.date) : creationDate,
+        },
+        end: {
+          ...body.end,
+          date: body.end.date ? new Date(body.end.date) : null,
+        },
+        createdAt: creationDate,
+        updatedAt: creationDate,
+      }
+
+      try {
+        const createdTripId = await tripsService.createTrip(trip);
+
+        res.status(201).json({
+          data: createdTripId,
+          message: 'trip created'
+        });
+      } catch (err) {
+        next(err);
+      }
+    }
+  );
+
+  router.put(
+    '/:tripId',
+    validationHandler(idSchema, 'params'),
+    validationHandler(updateTripSchema),
+    async function(req, res, next) {
+      const { tripId } = req.params;
+      const { body } = req;
+      
+      const updateDate = new Date();
+      
+      const trip = {
+        ...body,
+        updatedAt: updateDate,
+      }
+      
+      // Converting the Date for requesting with a String from Postman
+      // if(body.start && body.start.date){
+      //   trip.start = {
+      //     ...body.start,
+      //     date: new Date(body.start.date),
+      //   }
+      // }
+
+      // if(body.end && body.end.date){
+      //   trip.end = {
+      //     ...body.end,
+      //     date: new Date(body.end.date),
+      //   }
+      // }
+
+      // console.log('tripUpdate--->', trip);
+
+      try {
+        const updatedTripId = await tripsService.updateTrip({
+          tripId,
+          trip
+        });
+
+        res.status(201).json({
+          data: updatedTripId,
+          message: 'trip updated'
+        });
+      } catch (err) {
+        next(err);
+      }
+    }
+  );
+
+  router.delete(
+    '/:tripId',
+    validationHandler(idSchema, 'params'),
+    async function(req, res, next) {
+      const { tripId } = req.params;
+
+      try {
+        const deletedTripId = await tripsService.deleteTrip(tripId);
+
+        res.status(200).json({
+          data: deletedTripId,
+          message: 'trip deleted'
+        });
+      } catch (err) {
+        next(err);
+      }
+    }
+  );
 }
 
 module.exports = tripsApi;

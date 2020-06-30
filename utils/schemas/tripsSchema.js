@@ -1,7 +1,7 @@
 const joi = require('@hapi/joi');
 
 const tripIdSchema = joi.string().regex(/^[0-9a-fA-F]{24}$/);
-const dateTimeSchema = joi.date().iso();
+const dateTimeSchema = joi.date().iso().allow(null);
 const pickupAddressSchema = joi.string();
 const typeSchema = joi.string().valid('Point');
 const coordinatesSchema = joi.array();
@@ -28,7 +28,7 @@ const createTripSchema = {
     }
   },
   end: {
-    date: dateTimeSchema.required(),
+    date: dateTimeSchema,
     pickup_address: pickupAddressSchema.required(),
     pickup_location: {
       type: typeSchema.required(),
@@ -54,8 +54,8 @@ const createTripSchema = {
   },
   status: statusSchema.required(),
   check_code: checkCodeSchema.required(),
-  createdAt: dateTimeSchema.required(),
-  updatedAt: dateTimeSchema.required(),
+  // createdAt: dateTimeSchema.required(),
+  // updatedAt: dateTimeSchema.required(),
   price: priceSchema.required(),
   driver_location: {
     type: typeSchema.required(),
@@ -64,13 +64,22 @@ const createTripSchema = {
 };
 
 const updateTripSchema = {
-  start: {
-    pickup_address: pickupAddressSchema,
-    pickup_location: {
-      type: typeSchema,
-      coordinates: coordinatesSchema,
-    }
-  },
+  // start: {
+  //   date: dateTimeSchema,
+  //   pickup_address: pickupAddressSchema,
+  //   pickup_location: {
+  //     type: typeSchema,
+  //     coordinates: coordinatesSchema,
+  //   }
+  // },
+  // end: {
+  //   date: dateTimeSchema,
+  //   pickup_address: pickupAddressSchema,
+  //   pickup_location: {
+  //     type: typeSchema,
+  //     coordinates: coordinatesSchema,
+  //   }
+  // },
   car: {
     plate: plateSchema,
   },
