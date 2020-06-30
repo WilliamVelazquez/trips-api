@@ -35,13 +35,14 @@ function tripsApi(app) {
     '/',
     async function(req, res, next) {
       cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
-      const { start_time, end_time, city } = req.query;
+      const { start_time, end_time, city, page } = req.query;
 
       try {
-        const trips = await tripsService.getTrips(start_time, end_time, city);
+        const trips = await tripsService.getTrips(start_time, end_time, city, page);
 
         res.status(200).json({
           data: trips,
+          page: page || 1,
           message: 'trips listed'
         });
       } catch (err) {

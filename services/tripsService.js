@@ -14,14 +14,14 @@ class TripsService {
 		return count || 0;
   }
   
-	async getTrips(start_time = '', end_time = '', city = '') {
+	async getTrips(start_time = '', end_time = '', city = '', page = 1) {
 		const start = start_time || getInitialCurrentDate();
 		const end = end_time || getlastDateAfterDays();
 
 		const query = (start && end) && { createdAt: { $gt: new Date(start), $lt: new Date(end) } };
 		if(city) query.city={ name: city };
     
-    const trips = await this.mongoDB.getAll(this.collection, query);
+    const trips = await this.mongoDB.getAll(this.collection, query, page);
 		return trips || [];
 	}
 
