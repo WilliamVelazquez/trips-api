@@ -8,6 +8,12 @@ class TripsService {
     this.mongoDB = new MongoLib();
 	}
 
+  async countTrips(city) {
+    const query = city ? { city: { name: city } } : null;
+		const count = await this.mongoDB.count(this.collection, query);
+		return count || 0;
+  }
+  
 	async getTrips(start_time = '', end_time = '', city = '') {
 		const start = start_time || getInitialCurrentDate();
 		const end = end_time || getlastDateAfterDays();
@@ -23,12 +29,6 @@ class TripsService {
 		// const trip = await Promise.resolve(TripsServiceMock.createTrip());
 		const trip = await this.mongoDB.get(this.collection, tripId);
 		return trip || {};
-  }
-  
-  async countTrips(city) {
-    const query = city ? { city: { name: city } } : null;
-		const count = await this.mongoDB.count(this.collection, query);
-		return count || 0;
   }
 }
 
