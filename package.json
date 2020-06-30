@@ -7,7 +7,9 @@
     "dev": "DEBUG=app:* nodemon index",
     "start": "NODE_ENV=production node index",
     "dev:windows": "set DEBUG=app:*& nodemon index",
-    "start:windows": "set NODE_ENV=production& node index"
+    "start:windows": "set NODE_ENV=production& node index",
+    "seed:trips": "DEBUG=app:* node utils/scripts/seedTrips.js",
+    "seed:trips:windows": "set DEBUG=app:*& node utils/scripts/seedTrips.js"
   },
   "repository": {
     "type": "git",
