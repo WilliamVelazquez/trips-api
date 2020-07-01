@@ -39,6 +39,7 @@ DB_NAME=XXX
 ```
 
 >This project runs on **http://localhost:3002** or the specified **PORT** on the .env file.
+
 📌**Production Environment**
 
 Run the following command to run the production build:
