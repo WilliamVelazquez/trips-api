@@ -1,11 +1,19 @@
 const express = require('express');
+const helmet = require('helmet');
+const cors = require("cors");
+
 const app = express();
 
 const { config } = require('./config');
+const corsOptions = { origin: config.corsOrigin };
 
 const tripsApi = require('./routes/trips');
 const notFoundHandler = require('./utils/middleware/notFoundHandler');
 const { logErrors, wrapErrors, errorHandler } = require('./utils/middleware/errorHandlers');
+
+// Security
+app.use(helmet());
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
