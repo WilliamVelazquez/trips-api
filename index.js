@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-const cors = require("cors");
+const cors = require('cors');
 
 const app = express();
 
@@ -8,6 +8,7 @@ const { config } = require('./config');
 const corsOptions = { origin: config.corsOrigin };
 
 const tripsApi = require('./routes/trips');
+const swaggerDocs = require('./routes/docs');
 const notFoundHandler = require('./utils/middleware/notFoundHandler');
 const { logErrors, wrapErrors, errorHandler } = require('./utils/middleware/errorHandlers');
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 // Routes
 tripsApi(app);
+swaggerDocs(app);
 
 // Catch 404
 app.use(notFoundHandler);
