@@ -1,0 +1,499 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Trips API developed with Express/NodeJs to CRUD trips from different cities.",
+    "version": "1.0.0",
+    "title": "Trips API",
+    "contact": {
+      "email": "info@williamvelazquez.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/WilliamVelazquez/trips-api/blob/master/LICENSE"
+    }
+  },
+  "host": "https://trips-api.vercel.app",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "trips",
+      "description": "Operations over the trips"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/trips": {
+      "get": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "List a page of trips",
+        "description": "Shows a list of ten trips per page",
+        "operationId": "getTrips",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "start_time",
+            "description": "Initial Trip createdAt value considered",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "end_time",
+            "description": "Last Trip createdAt value considered",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "city",
+            "description": "City considered for the Trips list",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Number of the page of the list",
+            "type": "number",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trips listed",
+            "schema": {
+              "$ref": "#/definitions/ApiListResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Create a new trip",
+        "description": "Create a new trip on the database",
+        "operationId": "createTrip",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Trip object that needs to be added to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Trip"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Trip created",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid input / Bad Request"
+          }
+        }
+      }
+    },
+    "/trips/{tripId}": {
+      "get": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Trip information",
+        "description": "Shows the information of the Trip",
+        "operationId": "getTrip",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tripId",
+            "description": "ID of the Trip to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip retrieved",
+            "schema": {
+              "$ref": "#/definitions/Trip"
+            }
+          },
+          "400": {
+            "description": "Invalid input / Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Update a trip",
+        "description": "Update a trip on the database",
+        "operationId": "updateTrip",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tripId",
+            "description": "ID of the Trip to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Trip object that will be updated on the database. You can update car, status, check_code, price and driver_location properties.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTrip"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip updated",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid input / Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Delete a trip",
+        "description": "Delete a Trip from the database",
+        "operationId": "deleteTrip",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tripId",
+            "description": "ID of the Trip to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trip deleted",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid input / Bad Request"
+          }
+        }
+      }
+    },
+    "/trips/count": {
+      "get": {
+        "tags": [
+          "trips"
+        ],
+        "summary": "Count the total of trips",
+        "description": "Count the total of trips on the database",
+        "operationId": "countTrips",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "city",
+            "description": "City to consider for the total count of trips",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trips counted",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Trip": {
+      "type": "object",
+      "required": [
+        "start",
+        "end",
+        "country",
+        "city",
+        "passenger",
+        "driver",
+        "car",
+        "status",
+        "check_code",
+        "price",
+        "driver_location"
+      ],
+      "properties": {
+        "start": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "pickup_address": {
+              "type": "string"
+            },
+            "pickup_location": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "coordinates": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "end": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "pickup_address": {
+              "type": "string"
+            },
+            "pickup_location": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "coordinates": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "country": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "passenger": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            }
+          }
+        },
+        "driver": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            }
+          }
+        },
+        "car": {
+          "type": "object",
+          "properties": {
+            "plate": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Trip Status",
+          "enum": [
+            "onWay",
+            "near",
+            "started"
+          ]
+        },
+        "check_code": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "price": {
+          "type": "number"
+        },
+        "driver_location": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UpdateTrip": {
+      "type": "object",
+      "properties": {
+        "car": {
+          "type": "object",
+          "properties": {
+            "plate": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "Trip Status",
+          "enum": [
+            "onWay",
+            "near",
+            "started"
+          ]
+        },
+        "check_code": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "driver_location": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "required": [
+        "data",
+        "message"
+      ],
+      "properties": {
+        "data": {
+          "type": "string",
+          "format": "ID"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiListResponse": {
+      "type": "object",
+      "required": [
+        "data",
+        "message"
+      ],
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Trip"
+          }
+        },
+        "page": {
+          "type": "string",
+          "description": "Shows the pagination number"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about the project",
+    "url": "https://github.com/WilliamVelazquez/trips-api#readme"
+  }
+}

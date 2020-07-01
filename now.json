@@ -1,0 +1,12 @@
+{
+  "name": "trips-api",
+  "version": 2,
+  "builds": [{ "src": "index.js", "use": "@now/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/index.js" }],
+  "env": {
+    "DB_USER": "@tripsapi-db-user",
+    "DB_PASSWORD": "@tripsapi-db-password",
+    "DB_HOST": "@tripsapi-db-host",
+    "DB_NAME": "@tripsapi-db-name"
+  }
+}
