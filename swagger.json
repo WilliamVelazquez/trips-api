@@ -12,7 +12,7 @@
       "url": "https://github.com/WilliamVelazquez/trips-api/blob/master/LICENSE"
     }
   },
-  "host": "https://trips-api.vercel.app",
+  "host": "trips-api.now.sh",
   "basePath": "/api",
   "tags": [
     {
