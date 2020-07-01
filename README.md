@@ -7,7 +7,7 @@ Trips API developed with Express/NodeJs to CRUD Trips from different cities.
 
 ### 🚀 Links
 
- * **Live API:** https://trips-api.vercel.app/api
+ * **Live API:** https://trips-api.now.sh/api/
 
 
 ### 🛠️ Installation
