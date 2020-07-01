@@ -54,6 +54,26 @@ Run the following command to create the production build and deploy on Vercel/No
 now
 ```
 
+### 🧱 Architecture
+
+📌**Three Layer architecture**
+
+I use a three-tier architecture to divide responsibilities and keep logic, services, and data independent of each other.
+
+![Layers](./.readme-static/layers.png)
+
+### 🔨 Architecture
+
+![Architecture](./.readme-static/architecture.png)
+
+
+### 🧰 GitFlow
+
+For the GitFlow every feature was developed over a specific branch and after being completed, it should be merged to the Development Branch. For every deploy the Development branch is merged to Master Branch.
+
+![GitFlow](./.readme-static/gitflow.svg)
+
+
 ### 💻 Technologies
 
   * NodeJs
